@@ -3,3 +3,8 @@
   arista.eos.vlans:
     state: "{{ vlan_state }}"
     config: "{{ vlan_config }}"
+  register: r_eos_vlans
+
+- name: debug vlans
+  ansible.builtin.debug:
+    var: r_eos_vlans
