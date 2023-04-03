@@ -3,3 +3,4 @@
   cisco.ios.vlans:
     state: "{{ vlan_state }}"
     config: "{{ vlan_config }}"
+  register: r_vlans

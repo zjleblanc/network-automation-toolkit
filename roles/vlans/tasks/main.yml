@@ -4,3 +4,26 @@
   with_first_found:
     - "{{ role_path }}/tasks/{{ ansible_network_os }}.yml"
     - "{{ role_path }}/tasks/unsupported_platform.yml"
+
+- name: Register eos changes
+  when: 
+    - r_vlans is defined
+    - r_vlans.changed
+  block:
+    - name: Get diff
+      ansible.utils.fact_diff:
+        before: "{{ r_vlans.before }}"
+        after: "{{ r_vlans.after }}"
+      register: r_vlan_diff
+
+    - name: Set fact
+      ansible.builtin.set_fact:
+        vlan:
+          hostname: "{{ inventory_hostname }}"
+          diff: "{{ r_vlan_diff.diff_text }}"
+
+- name: debug vlans
+  ansible.builtin.set_stats:
+    data: 
+      workflow_vlans:
+        - "{{ vlan }}"

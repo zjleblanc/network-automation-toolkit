@@ -3,10 +3,4 @@
   arista.eos.vlans:
     state: "{{ vlan_state }}"
     config: "{{ vlan_config }}"
-  register: r_eos_vlans
-
-- name: debug vlans
-  ansible.builtin.set_stats:
-    data: 
-      workflow_vlans:
-        - "{{ {'hostname': inventory_hostname } | combine(r_eos_vlans) }}"
+  register: r_vlans
