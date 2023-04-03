@@ -12,6 +12,9 @@
         var: workflow_vlans
 
     - name: Post diff to slack
+      loop: "{{ workflow_vlans }}"
+      loop_control:
+        loop_var: vlan
       ansible.builtin.uri:
         url: https://slack.com/api/files.upload
         headers:
