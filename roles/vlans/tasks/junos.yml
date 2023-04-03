@@ -3,3 +3,8 @@
   junipernetworks.junos.vlans:
     state: "{{ vlan_state }}"
     config: "{{ vlan_config }}"
+  register: r_junos_vlans
+
+- name: debug vlans
+  ansible.builtin.debug:
+    var: r_junos_vlans
