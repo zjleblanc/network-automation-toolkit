@@ -10,3 +10,14 @@
     - name: Debug set stats
       ansible.builtin.debug:
         var: workflow_vlans
+
+    - name: Post diff to slack
+      ansible.builtin.uri:
+        url: https://slack.com/api/files.upload
+        headers:
+          Authorization: "Bearer {{ slack_token }}"
+        body_format: form-multipart
+        body:
+          content: "{{ vlan.diff_text }}"
+          title: "VLAN changes for {{ vlan.hostname }}"
+          channels: "automation-everywhere-demo"
