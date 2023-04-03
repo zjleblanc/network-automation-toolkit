@@ -1,7 +1,6 @@
 ---
 - name: Custom slack notification for networking vlan changes
   hosts: localhost
-  gather_facts: false
 
   tasks:
     - name: Assert stats passed from vlan playbook
