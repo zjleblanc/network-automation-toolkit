@@ -3,9 +3,15 @@
   hosts: localhost
 
   tasks:
-    - name: Assert stats passed from vlan playbook
-      ansible.builtin.assert:
-        that: workflow_vlans is defined
+    - name: Check for stats
+      block:
+        - name: Assert stats passed from vlan playbook
+          ansible.builtin.assert:
+            that: workflow_vlans is defined
+      rescue:
+        - name: Set default value
+          ansible.builtin.set_fact:
+            workflow_vlans: []
 
     - name: Debug set stats
       ansible.builtin.debug:
