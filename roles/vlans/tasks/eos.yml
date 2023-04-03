@@ -9,4 +9,4 @@
   ansible.builtin.set_stats:
     data: 
       workflow_vlans:
-        - "{{ r_eos_vlans }}"
+        - "{{ {'hostname': inventory_hostname } | combine(r_eos_vlans) }}"
