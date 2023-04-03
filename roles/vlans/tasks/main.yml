@@ -22,8 +22,8 @@
           hostname: "{{ inventory_hostname }}"
           diff: "{{ r_vlan_diff.diff_text }}"
 
-- name: debug vlans
-  ansible.builtin.set_stats:
-    data: 
-      workflow_vlans:
-        - "{{ vlan }}"
+    - name: set workflow stats
+      ansible.builtin.set_stats:
+        data: 
+          workflow_vlans:
+            - "{{ vlan }}"
