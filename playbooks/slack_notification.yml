@@ -21,6 +21,6 @@
           Authorization: "Bearer {{ slack_token }}"
         body_format: form-multipart
         body:
-          content: "{{ vlan.diff_text }}"
+          content: "{{ vlan.diff }}"
           title: "VLAN changes for {{ vlan.hostname }}"
           channels: "automation-everywhere-demo"
