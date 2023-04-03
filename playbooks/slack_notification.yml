@@ -1,0 +1,13 @@
+---
+- name: Custom slack notification for networking vlan changes
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Assert stats passed from vlan playbook
+      ansible.builtin.assert:
+        that: workflow_vlans is defined
+
+    - name: Debug set stats
+      ansible.builtin.debug:
+        var: workflow_vlans

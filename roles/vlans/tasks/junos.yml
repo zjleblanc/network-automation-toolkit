@@ -6,5 +6,7 @@
   register: r_junos_vlans
 
 - name: debug vlans
-  ansible.builtin.debug:
-    var: r_junos_vlans
+  ansible.builtin.set_stats:
+    data: 
+      workflow_vlans:
+        - r_junos_vlans
