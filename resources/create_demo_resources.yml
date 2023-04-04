@@ -36,8 +36,7 @@
         validate_certs: false
 
     - name: Create Slack API Token Credential
-      when: 
-        - input_slack_token != 'omitted'
+      when: input_slack_token|length > 0
       ansible.controller.credential:
         name: "{{ slack_credential.name }}"
         organization: "{{ slack_credential.organization }}"
