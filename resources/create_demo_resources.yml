@@ -25,7 +25,7 @@
 
     - name: Create Slack API Token Credential
       ansible.controller.credential_type:
-        name: "{{ slack_credential_type.name }} Test"
+        name: "{{ slack_credential_type.name }}"
         description: "{{ slack_credential_type.description }}"
         kind: "{{ slack_credential_type.kind }}"
         inputs: "{{ slack_credential_type.inputs }}"
