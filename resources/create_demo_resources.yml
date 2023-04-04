@@ -4,7 +4,7 @@
   gather_facts: false
 
   vars_files:
-    - "{{ playbook_dir }}/vars/credentials.yml"
+    - "{{ playbook_dir }}/vars/credential_type.yml"
 
   tasks:
     - name: Determine that both AAP and Machine credentials are set
@@ -23,7 +23,7 @@
           - "{{ lookup('env', 'CONTROLLER_PASSWORD') }}"
           - "{{ lookup('env', 'CONTROLLER_HOST') }}"
 
-    - name: Create Slack API Token Credential
+    - name: Create Slack API Token Credential Type
       ansible.controller.credential_type:
         name: "{{ slack_credential_type.name }}"
         description: "{{ slack_credential_type.description }}"
@@ -32,3 +32,12 @@
         injectors: "{{ slack_credential_type.injectors }}"
         state: present
         validate_certs: false
+
+    - name: Create Slack API Token Credential
+      when: input_slack_token is defined
+      ansible.controller.credential:
+        name: "{{ slack_credential.name }}"
+        organization: "{{ slack_credential.organization }}"
+        credential_type: "{{ slack_credential.credential_type }}"
+        inputs: "{{ slack_credential.inputs }}"
+        state: present
