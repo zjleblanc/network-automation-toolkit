@@ -1,0 +1,34 @@
+---
+- name: Create AAP Resources for Automation Everywhere Demo
+  hosts: localhost
+  gather_facts: false
+
+  vars_files:
+    - credential_types/vars.yml
+
+  tasks:
+    - name: Determine that both AAP and Machine credentials are set
+      ansible.builtin.assert:
+        that:
+          - "lookup('env', 'CONTROLLER_USERNAME') !=''"
+        fail_msg:
+          - "This Job requires two credentials"
+          - "Red Hat Ansible Automation Platform credential is not set"
+          - "Please assign correct credentials to the Job Template"
+
+    - name: Determine that both AAP and Machine credentials are set
+      ansible.builtin.debug:
+        msg:
+          - "{{ lookup('env', 'CONTROLLER_USERNAME') }}"
+          - "{{ lookup('env', 'CONTROLLER_PASSWORD') }}"
+          - "{{ lookup('env', 'CONTROLLER_HOST') }}"
+
+    - name: Create Slack API Token Credential
+      ansible.controller.credential_type:
+        name: "{{ slack_credential_type.name }} Test"
+        description: "{{ slack_credential_type.description }}"
+        kind: "{{ slack_credential_type.kind }}"
+        inputs: "{{ slack_credential_type.inputs }}"
+        injectors: "{{ slack_credential_type.injectors }}"
+        state: present
+        validate_certs: false
