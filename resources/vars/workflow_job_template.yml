@@ -5,12 +5,15 @@ vlan_wjt:
   inventory: Workshop Inventory
   survey_enabled: true
   survey_spec:
-    question_name: What is your VLAN config? (represent with YAML)
-    question_description: "VLAN configuration based on ansible networking data model"
-    required: true
-    type: textarea
-    variable: survey_net_vlan_config
-    default: "-   name: desktops\n    vlan_id: 20\n-   name: servers\n    vlan_id: 30\n-   name: printers\n    vlan_id: 40\n-   name: DMZ\n    vlan_id: 50\n"
+    name: VLAN config survey
+    description: VLAN configuration based on ansible networking data model
+    spec:
+      - question_name: What is your VLAN config? (represent with YAML)
+        question_description: VLAN configuration based on ansible networking data model
+        required: true
+        type: textarea
+        variable: survey_net_vlan_config
+        default: "-   name: desktops\n    vlan_id: 20\n-   name: servers\n    vlan_id: 30\n-   name: printers\n    vlan_id: 40\n-   name: DMZ\n    vlan_id: 50\n"
   limit: arista:juniper
   workflow_nodes:
     - identifier: Project Sync

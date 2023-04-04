@@ -7,6 +7,7 @@
     - "{{ playbook_dir }}/vars/credential_type.yml"
     - "{{ playbook_dir }}/vars/credential.yml"
     - "{{ playbook_dir }}/vars/job_template.yml"
+    - "{{ playbook_dir }}/vars/workflow_job_template.yml"
 
   tasks:
     - name: Determine that both AAP and Machine credentials are set
@@ -26,7 +27,7 @@
           - "{{ lookup('env', 'CONTROLLER_HOST') }}"
 
     - name: Create Slack API Token Credential Type
-      ansible.controller.credential_type:
+      awx.awx.credential_type:
         name: "{{ slack_credential_type.name }}"
         description: "{{ slack_credential_type.description }}"
         kind: "{{ slack_credential_type.kind }}"
@@ -36,8 +37,10 @@
         validate_certs: false
 
     - name: Create Slack API Token Credential
-      when: input_slack_token|length > 0
-      ansible.controller.credential:
+      when:
+        - input_slack_token is defined 
+        - input_slack_token|length > 0
+      awx.awx.credential:
         name: "{{ slack_credential.name }}"
         organization: "{{ slack_credential.organization }}"
         credential_type: "{{ slack_credential.credential_type }}"
@@ -45,7 +48,7 @@
         state: present
 
     - name: Create VLAN Slack Notification Job Template
-      ansible.controller.job_template:
+      awx.awx.job_template:
         name: "{{  vlan_slack_notification_jt.name }}"
         organization: "{{  vlan_slack_notification_jt.organization }}"
         job_type: "{{  vlan_slack_notification_jt.job_type }}"
@@ -59,7 +62,7 @@
       loop: "{{ prompt_limit_on_launch_jts }}"
       loop_control:
         loop_var: jt
-      ansible.controller.job_template:
+      awx.awx.job_template:
         name: "{{ jt.name }}"
         organization: "{{ jt.org }}"
         ask_limit_on_launch: true
