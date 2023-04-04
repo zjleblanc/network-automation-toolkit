@@ -5,6 +5,7 @@
 
   vars_files:
     - "{{ playbook_dir }}/vars/credential_type.yml"
+    - "{{ playbook_dir }}/vars/credential.yml"
 
   tasks:
     - name: Determine that both AAP and Machine credentials are set
