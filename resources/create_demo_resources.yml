@@ -4,7 +4,7 @@
   gather_facts: false
 
   vars_files:
-    - credential_types/vars.yml
+    - "{{ playbook_dir }}/vars/credentials.yml"
 
   tasks:
     - name: Determine that both AAP and Machine credentials are set
