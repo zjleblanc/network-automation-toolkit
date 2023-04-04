@@ -64,3 +64,15 @@
         organization: "{{ jt.org }}"
         ask_limit_on_launch: true
         state: present
+
+    - name: Create VLAN Workflow Job Template
+      awx.awx.workflow_job_template:
+        name: "{{ vlan_wjt.name }}"
+        description: "{{ vlan_wjt.description }}"
+        organization: "{{ vlan_wjt.organization }}"
+        inventory: "{{ vlan_wjt.inventory }}"
+        survey_enabled: "{{ vlan_wjt.survey_enabled }}"
+        survey_spec: "{{ vlan_wjt.survey_spec }}"
+        limit: "{{ vlan_wjt.limit }}"
+        workflow_nodes: "{{ vlan_wjt.workflow_nodes }}"
+        state: present
