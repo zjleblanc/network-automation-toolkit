@@ -6,6 +6,7 @@
   vars_files:
     - "{{ playbook_dir }}/vars/credential_type.yml"
     - "{{ playbook_dir }}/vars/credential.yml"
+    - "{{ playbook_dir }}/vars/job_template.yml"
 
   tasks:
     - name: Determine that both AAP and Machine credentials are set
@@ -42,3 +43,14 @@
         credential_type: "{{ slack_credential.credential_type }}"
         inputs: "{{ slack_credential.inputs }}"
         state: present
+
+    - name: Create VLAN Slack Notification Job Template
+      ansible.controller.job_template:
+        name: "{{  vlan_slack_notification_jt.name }}"
+        organization: "{{  vlan_slack_notification_jt.organization }}"
+        job_type: "{{  vlan_slack_notification_jt.job_type }}"
+        inventory: "{{  vlan_slack_notification_jt.inventory }}"
+        project: "{{  vlan_slack_notification_jt.project }}"
+        playbook: "{{  vlan_slack_notification_jt.playbook }}"
+        credentials: "{{  vlan_slack_notification_jt.credentials }}"
+        state: present 

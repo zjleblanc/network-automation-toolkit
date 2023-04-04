@@ -1,0 +1,9 @@
+vlan_slack_notification_jt:
+  name: VLAN Slack Notification
+  organization: Default
+  job_type: run
+  inventory: Workshop Inventory
+  project: Workshop Project
+  playbook: playbooks/slack_notification.yml
+  credentials:
+    - "{{ slack_credential.name }}"
