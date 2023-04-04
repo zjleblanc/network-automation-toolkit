@@ -7,3 +7,9 @@ vlan_slack_notification_jt:
   playbook: playbooks/slack_notification.yml
   credentials:
     - "{{ slack_credential.name }}"
+
+prompt_limit_on_launch_jts:
+  - name: Network Backup
+    org: Red Hat network organization
+  - name: Network - VLANs
+    org: Red Hat network organization

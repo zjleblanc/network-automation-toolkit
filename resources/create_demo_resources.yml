@@ -55,3 +55,13 @@
         playbook: "{{  vlan_slack_notification_jt.playbook }}"
         credentials: "{{  vlan_slack_notification_jt.credentials }}"
         state: present 
+    
+    - name: Set Job Templates for Prompt Limit On Launch
+      loop: "{{ prompt_limit_on_launch_jts }}"
+      loop_control:
+        loop_var: jt
+      ansible.controller.job_template:
+        name: "{{ jt.name }}"
+        organization: "{{ jt.org }}"
+        ask_limit_on_launch: true
+        state: present
