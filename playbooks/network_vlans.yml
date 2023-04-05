@@ -4,7 +4,7 @@
   gather_facts: no
   vars:
     - vlan_state:  "{{ net_vlan_state | default('merged') }}"
-    - vlan_config: "{{ survey_net_vlan_config| default(net_vlan_config) | default('') }}"
+    - vlan_config: "{{ survey_net_vlan_config | default(net_vlan_config | default('')) }}"
 
   # you would pass vlan_config like this:
   # ---
