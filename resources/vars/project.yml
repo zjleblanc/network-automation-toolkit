@@ -1,0 +1,5 @@
+workshop_project:
+  name: Workshop Project
+  organization: Red Hat network organization
+  scm_url: https://github.com/zjleblanc/network-automation-toolkit.git
+  scm_branch: master

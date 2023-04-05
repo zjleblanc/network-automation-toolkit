@@ -4,6 +4,7 @@
   gather_facts: false
 
   vars_files:
+    - "{{ playbook_dir }}/vars/project.yml"
     - "{{ playbook_dir }}/vars/credential_type.yml"
     - "{{ playbook_dir }}/vars/credential.yml"
     - "{{ playbook_dir }}/vars/job_template.yml"
@@ -26,6 +27,21 @@
           - "{{ lookup('env', 'CONTROLLER_PASSWORD') }}"
           - "{{ lookup('env', 'CONTROLLER_HOST') }}"
 
+    - name: Point project at fork
+      register: r_project_url
+      awx.awx.project:
+        name: "{{ workshop_project.name }}"
+        organization: "{{ workshop_project.organization }}"
+        scm_url: "{{ workshop_project.scm_url }}"
+        scm_branch: "{{ workshop_project.scm_branch }}"
+
+    - name: Update project
+      when: r_project_url.changed
+      awx.awx.project_update:
+        name: "{{ workshop_project.name }}"
+        organization: "{{ workshop_project.organization }}"
+        wait: true
+
     - name: Create Slack API Token Credential Type
       awx.awx.credential_type:
         name: "{{ slack_credential_type.name }}"
@@ -38,7 +54,7 @@
 
     - name: Create Slack API Token Credential
       when:
-        - input_slack_token is defined 
+        - input_slack_token is defined
         - input_slack_token|length > 0
       awx.awx.credential:
         name: "{{ slack_credential.name }}"
@@ -47,25 +63,19 @@
         inputs: "{{ slack_credential.inputs }}"
         state: present
 
-    - name: Create VLAN Slack Notification Job Template
-      awx.awx.job_template:
-        name: "{{  vlan_slack_notification_jt.name }}"
-        organization: "{{  vlan_slack_notification_jt.organization }}"
-        job_type: "{{  vlan_slack_notification_jt.job_type }}"
-        inventory: "{{  vlan_slack_notification_jt.inventory }}"
-        project: "{{  vlan_slack_notification_jt.project }}"
-        playbook: "{{  vlan_slack_notification_jt.playbook }}"
-        credentials: "{{  vlan_slack_notification_jt.credentials }}"
-        state: present 
-    
-    - name: Set Job Templates for Prompt Limit On Launch
-      loop: "{{ prompt_limit_on_launch_jts }}"
+    - name: Create Job Templates
+      loop: "{{ job_templates }}"
       loop_control:
         loop_var: jt
       awx.awx.job_template:
         name: "{{ jt.name }}"
-        organization: "{{ jt.org }}"
-        ask_limit_on_launch: true
+        organization: "{{ jt.organization }}"
+        job_type: "{{ jt.job_type }}"
+        inventory: "{{ jt.inventory }}"
+        project: "{{ jt.project }}"
+        playbook: "{{ jt.playbook }}"
+        credentials: "{{ jt.credentials }}"
+        ask_limit_on_launch: "{{ jt.ask_limit_on_launch | default(omit) }}"
         state: present
 
     - name: Create VLAN Workflow Job Template

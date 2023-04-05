@@ -27,7 +27,7 @@ vlan_wjt:
           - identifier: Network Backup
     - identifier: Network Backup
       unified_job_template:
-        name: Network Backup
+        name: Network-Backup
         organization:
             name: Red Hat network organization
         type: job_template
@@ -36,7 +36,7 @@ vlan_wjt:
           - identifier: Configure VLANs
     - identifier: Configure VLANs
       unified_job_template:
-        name: Network - VLANs
+        name: Network-VLANs
         organization:
             name: Red Hat network organization
         type: job_template

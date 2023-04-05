@@ -1,15 +1,28 @@
-vlan_slack_notification_jt:
-  name: VLAN Slack Notification
-  organization: Red Hat network organization
-  job_type: run
-  inventory: Workshop Inventory
-  project: Workshop Project
-  playbook: playbooks/slack_notification.yml
-  credentials:
-    - "{{ slack_credential.name }}"
-
-prompt_limit_on_launch_jts:
-  - name: Network Backup
-    org: Red Hat network organization
-  - name: Network - VLANs
-    org: Red Hat network organization
+job_templates:
+-   name: VLAN Slack Notification
+    organization: Red Hat network organization
+    job_type: run
+    inventory: Workshop Inventory
+    project: Workshop Project
+    playbook: playbooks/slack_notification.yml
+    credentials:
+      - "{{ slack_credential.name }}"
+-   name: Network-Backup
+    organization: Red Hat network organization
+    job_type: run
+    inventory: Workshop Inventory
+    project: Workshop Project
+    playbook: playbooks/network_backup.yml
+    ask_limit_on_launch: true
+    credentials:
+      - Workshop Credential
+      - Controller Credential
+-   name: Network-VLANs
+    organization: Red Hat network organization
+    job_type: run
+    inventory: Workshop Inventory
+    project: Workshop Project
+    playbook: playbooks/network_vlans.yml
+    ask_limit_on_launch: true
+    credentials:
+      - Workshop Credential
