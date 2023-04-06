@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: no
   vars:
-    - vlan_state:  "{{ net_vlan_state | default('overriden') }}"
+    - vlan_state:  "{{ net_vlan_state | default('overridden') }}"
     - vlan_config: "{{ net_vlan_config | default('') }}"
 
   # you would pass vlan_config like this:
